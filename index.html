@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BI Engineering Lab — practical guides, solutions, and insights on Power BI, Spotfire, SQL, Python, ETL, and AI.">
+  <title>BI Engineering Lab</title>
+
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --blue: #1d4ed8;
+      --sky: #38bdf8;
+      --ink: #182033;
+      --muted: #5b6474;
+      --line: #dce3ee;
+      --soft: #f5f8fc;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-inner {
+      min-height: 68px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .hero {
+      color: var(--white);
+      background:
+        radial-gradient(circle at 88% 16%, rgba(56, 189, 248, 0.32), transparent 24rem),
+        linear-gradient(135deg, #08182e, #123b78);
+      padding: 92px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      color: #bce9ff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(2.4rem, 6vw, 4.8rem);
+      line-height: 1.06;
+      letter-spacing: -0.055em;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 24px 0 32px;
+      color: #d7e6f8;
+      font-size: 1.15rem;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 20px;
+      border-radius: 8px;
+      background: var(--sky);
+      color: #06203d;
+      font-weight: 800;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .button:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 190px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 8px 28px rgba(15, 35, 68, 0.06);
+    }
+
+    .icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 18px;
+      place-items: center;
+      border-radius: 10px;
+      background: #e7f3ff;
+      color: var(--blue);
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1.14rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .articles {
+      background: var(--soft);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .article-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--white);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .article-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .article-card a {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--blue);
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .about-box {
+      padding: 26px;
+      border-left: 4px solid var(--sky);
+      border-radius: 0 12px 12px 0;
+      background: var(--soft);
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 28px 0;
+      color: #b8c4d5;
+      background: var(--navy);
+      font-size: 0.92rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    footer a {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .hero {
+        padding: 70px 0 64px;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">BI <span>Engineering Lab</span></a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#expertise">Expertise</a>
+        <a href="#articles">Articles</a>
+        <a href="#about">About</a>
+        <a href="https://github.com/BIEngineeringLab">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="eyebrow">Business Intelligence · Data Engineering · AI</div>
+        <h1>Build better business intelligence systems.</h1>
+        <p>
+          Practical engineering insights, guides, and solutions for building
+          reliable analytics, data pipelines, dashboards, and AI-enabled BI.
+        </p>
+        <a class="button" href="#expertise">Explore the Lab</a>
+      </div>
+    </section>
+
+    <section id="expertise">
+      <div class="container">
+        <div class="section-heading">
+          <h2>What we explore</h2>
+          <p>
+            Tools, patterns, and practical lessons for modern analytics and
+            business intelligence engineering.
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="icon">P</div>
+            <h3>Power BI</h3>
+            <p>DAX, data modeling, performance optimization, governance, and dashboard design.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">S</div>
+            <h3>Spotfire</h3>
+            <p>Visual analytics, data functions, automation, and enterprise reporting solutions.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">SQL</div>
+            <h3>SQL</h3>
+            <p>Clear, efficient queries, data transformations, dimensional models, and database practices.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">DE</div>
+            <h3>Data Engineering</h3>
+            <p>ETL and ELT pipelines, orchestration, quality checks, scalable data platforms, and architecture.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">AI</div>
+            <h3>AI for BI</h3>
+            <p>Practical uses of AI, automation, and generative tools in analytics workflows and decision-making.</p>
+          </article>
+
+          <article class="card">
+            <div class="icon">Py</div>
+            <h3>Python</h3>
+            <p>Data preparation, analysis, automation, APIs, and reusable engineering workflows.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="articles" id="articles">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Articles</h2>
+          <p>
+            A growing collection of practical notes, tutorials, and engineering solutions.
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="article-card">
+            <div class="tag">Coming soon · Power BI</div>
+            <h3>Designing a scalable Power BI semantic model</h3>
+            <p>A practical approach to organizing measures, relationships, dimensions, and governance.</p>
+            <a href="#articles">Read article →</a>
+          </article>
+
+          <article class="article-card">
+            <div class="tag">Coming soon · SQL</div>
+            <h3>Writing SQL that is clear, correct, and performant</h3>
+            <p>Core patterns for transforming business data without turning queries into a maintenance burden.</p>
+            <a href="#articles">Read article →</a>
+          </article>
+
+          <article class="article-card">
+            <div class="tag">Coming soon · AI</div>
+            <h3>Where AI adds real value in BI workflows</h3>
+            <p>Practical opportunities for AI assistance in documentation, analysis, engineering, and reporting.</p>
+            <a href="#articles">Read article →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about">
+        <div>
+          <div class="section-heading">
+            <h2>About BI Engineering Lab</h2>
+            <p>
+              A space for practical knowledge at the intersection of analytics,
+              data engineering, business intelligence, and AI.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-box">
+          The goal is simple: share useful solutions that help analysts,
+          developers, and business teams build more reliable and valuable data products.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 BI Engineering Lab</div>
+      <a href="https://github.com/BIEngineeringLab">View GitHub Profile</a>
+    </div>
+  </footer>
+</body>
+</html>
