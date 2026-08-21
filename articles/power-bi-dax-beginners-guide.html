@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A practical beginner guide to DAX measures in Power BI by BI Engineering Lab.">
+  <title>Power BI DAX Measures: A Practical Beginner Guide | BI Engineering Lab</title>
+
+  <style>
+    :root {
+      --snowbound: #EDE9E3;
+      --drift-of-mist: #E7E4DE;
+      --gale-force: #35454E;
+      --tricorn-black: #2A2A2A;
+      --honeydew: #DBE5D1;
+      --palm-leaf: #635D31;
+      --antiquarian-brown: #6C4A3A;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--snowbound);
+      color: var(--tricorn-black);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.75;
+    }
+
+    a {
+      color: var(--palm-leaf);
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
+    .nav {
+      background: var(--gale-force);
+      color: var(--white);
+      border-bottom: 4px solid var(--palm-leaf);
+    }
+
+    .nav-inner {
+      width: min(1080px, calc(100% - 40px));
+      min-height: 70px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--white);
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand span {
+      color: var(--honeydew);
+    }
+
+    .back-link {
+      color: var(--honeydew);
+      font-size: 0.92rem;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: var(--white);
+    }
+
+    .article-header {
+      padding: 68px 0 48px;
+      background: var(--white);
+      border-bottom: 1px solid var(--drift-of-mist);
+    }
+
+    .article-header-inner,
+    .article-content {
+      width: min(780px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .category {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--honeydew);
+      color: var(--palm-leaf);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--gale-force);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .intro {
+      margin: 22px 0 0;
+      color: #4c5558;
+      font-size: 1.15rem;
+    }
+
+    .article-meta {
+      margin-top: 24px;
+      color: #677075;
+      font-size: 0.92rem;
+    }
+
+    .article-content {
+      padding: 48px 0 72px;
+    }
+
+    h2 {
+      margin: 42px 0 12px;
+      color: var(--gale-force);
+      font-size: 1.65rem;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0 0 18px;
+    }
+
+    ul {
+      margin: 0 0 22px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .callout {
+      margin: 32px 0;
+      padding: 22px;
+      border-left: 5px solid var(--palm-leaf);
+      border-radius: 0 10px 10px 0;
+      background: var(--honeydew);
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .code-title {
+      margin: 28px 0 8px;
+      color: var(--gale-force);
+      font-weight: 800;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 0 0 24px;
+      padding: 20px;
+      border-radius: 10px;
+      background: var(--gale-force);
+      color: #f7f5ef;
+      font-family: "Courier New", monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: "Courier New", monospace;
+    }
+
+    .article-footer {
+      margin-top: 52px;
+      padding-top: 26px;
+      border-top: 1px solid var(--drift-of-mist);
+    }
+
+    footer {
+      padding: 30px 20px;
+      background: var(--gale-force);
+      color: var(--honeydew);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .nav-inner {
+        min-height: 62px;
+      }
+
+      .back-link {
+        font-size: 0.82rem;
+      }
+
+      .article-header {
+        padding: 48px 0 34px;
+      }
+
+      .article-content {
+        padding-top: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">BI <span>Engineering Lab</span></a>
+      <a class="back-link" href="../index.html">← Back to home</a>
+    </div>
+  </header>
+
+  <main>
+    <header class="article-header">
+      <div class="article-header-inner">
+        <div class="category">Power BI</div>
+        <h1>Power BI DAX Measures: A Practical Beginner Guide</h1>
+        <p class="intro">
+          Learn what DAX measures are, why they matter, and how to create
+          useful calculations that respond to filters in a Power BI report.
+        </p>
+        <div class="article-meta">BI Engineering Lab · August 2026 · 6 min read</div>
+      </div>
+    </header>
+
+    <article class="article-content">
+      <p>
+        DAX, short for Data Analysis Expressions, is the formula language used
+        in Power BI. It lets you create calculations such as total sales,
+        profit margin, year-to-date revenue, and performance comparisons.
+      </p>
+
+      <h2>What is a measure?</h2>
+      <p>
+        A measure is a calculation evaluated when a visual is displayed.
+        Unlike a fixed value stored in a data table, a measure changes based on
+        filters, slicers, rows, columns, and other context in your report.
+      </p>
+
+      <div class="callout">
+        <p>
+          <strong>Simple example:</strong> If a report user chooses 2026 in a
+          Year slicer, a Total Sales measure automatically recalculates to show
+          sales for 2026 only.
+        </p>
+      </div>
+
+      <h2>Create your first measure</h2>
+      <p>
+        Suppose you have a table called <code>Sales</code> with a column named
+        <code>SalesAmount</code>. Create this measure:
+      </p>
+
+      <div class="code-title">Total Sales</div>
+      <pre><code>Total Sales = SUM(Sales[SalesAmount])</code></pre>
+
+      <p>
+        Add this measure to a Card visual to display total sales. Add it to a
+        chart with Month on the axis, and it will show total sales for each
+        month. The formula remains the same; the visual context changes.
+      </p>
+
+      <h2>Measures versus calculated columns</h2>
+      <p>
+        A calculated column evaluates row by row when data is refreshed. A
+        measure evaluates at query time, based on the report context.
+      </p>
+
+      <ul>
+        <li>Use a calculated column when you need a value stored for every row.</li>
+        <li>Use a measure for totals, ratios, averages, percentages, and KPIs.</li>
+        <li>Prefer measures for report calculations when possible.</li>
+      </ul>
+
+      <h2>A useful percentage measure</h2>
+      <p>
+        This example calculates profit margin safely. The <code>DIVIDE</code>
+        function avoids an error when total sales are zero.
+      </p>
+
+      <div class="code-title">Profit Margin</div>
+      <pre><code>Profit Margin =
+DIVIDE(
+    [Total Profit],
+    [Total Sales],
+    0
+)</code></pre>
+
+      <h2>Beginner best practices</h2>
+      <ul>
+        <li>Name measures clearly, such as <code>Total Sales</code> or <code>Customer Count</code>.</li>
+        <li>Format currency, percentages, and whole numbers in the Power BI modeling pane.</li>
+        <li>Keep related measures in a dedicated measures table as your model grows.</li>
+        <li>Start with simple measures before learning advanced functions such as <code>CALCULATE</code>.</li>
+        <li>Test each measure with different filters and slicers.</li>
+      </ul>
+
+      <h2>Next step</h2>
+      <p>
+        Once you understand basic aggregation measures, learn
+        <code>CALCULATE</code>. It is one of the most important DAX functions
+        because it changes the filter context used by a calculation.
+      </p>
+
+      <div class="article-footer">
+        <p>
+          Want more practical BI content? Return to the
+          <a href="../index.html">BI Engineering Lab homepage</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    © 2026 BI Engineering Lab · Practical insights for better business intelligence.
+  </footer>
+</body>
+</html>
